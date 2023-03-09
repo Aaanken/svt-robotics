@@ -1,17 +1,26 @@
-# Robot Fleet Table Application
-This is a simple HTML and JavaScript application that retrieves data from an API and displays it in a table of robots. The table can be sorted by all attributes, and it can be filtered by Robot ID.
+# API Data Table
+This project is a simple web page that displays data from an API and provides sorting and filtering functionality for the user.
 
-## How to use
-1. Clone this repository to your local machine.
-2. Run the following command to start the application:
-```
- docker-compose up
-```
-3. Open the index.html file in a web browser.
-4. The table will be automatically populated with data retrieved from the API.
-5. To sort the table, click on the corresponding button for the desired attribute.
-6. To filter the table by Robot ID, enter a value in the input field and click the "Filter" button.
+## Technologies Used
+HTML
+CSS
+JavaScript
 
-## Dependencies
-Make you have a docker app installed on your local machine
-This application uses the Fetch API to retrieve data from the API.
+## Installation and Setup
+Clone the repository
+Open the index.html file in a web browser
+
+## Usage
+The web page will display a table of data retrieved from the following API endpoint:
+https://60c8ed887dafc90017ffbd56.mockapi.io/robots
+
+The table can be sorted by clicking on the headers of each column. Clicking once will sort in ascending order, and clicking again will sort in descending order.
+
+A search input is also available for filtering the table by robot ID.
+
+## Contributing
+
+Contributions are welcome! Please create a pull request or an issue if you would like to contribute to this project.
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
