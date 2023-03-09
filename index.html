@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            width: 80%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+<h1>API Data</h1>
+
+<input type="text" id="robotIdInput" onkeyup="filterTable()" placeholder="Filter by Robot ID">
+
+<table>
+    <thead>
+    <tr>
+        <th onclick="sortTable(0)">Robot ID</th>
+        <th onclick="sortTable(1)">Battery Level</th>
+        <th onclick="sortTable(2)">X Coordinate</th>
+        <th onclick="sortTable(3)">Y Coordinate</th>
+    </tr>
+    </thead>
+    <tbody id="data"></tbody>
+</table>
+
+<script>
+    let robots = [];
+
+    // Make API call
+    fetch('https://60c8ed887dafc90017ffbd56.mockapi.io/robots')
+        .then(response => response.json())
+        .then(data => {
+            // Update the DOM with the data
+            let dataBody = document.getElementById('data');
+
+            data.forEach(robot => {
+                let row = document.createElement('tr');
+                let robotIdCell = document.createElement('td');
+                robotIdCell.textContent = robot.robotId;
+                let batteryLevelCell = document.createElement('td');
+                batteryLevelCell.textContent = robot.batteryLevel + '%';
+                let xCoordCell = document.createElement('td');
+                xCoordCell.textContent = robot.x;
+                let yCoordCell = document.createElement('td');
+                yCoordCell.textContent = robot.y;
+
+                row.appendChild(robotIdCell);
+                row.appendChild(batteryLevelCell);
+                row.appendChild(xCoordCell);
+                row.appendChild(yCoordCell);
+
+                dataBody.appendChild(row);
+
+                // Add robot data to the robots array
+                robots.push(robot);
+            });
+        })
+        .catch(error => console.error(error));
+
+    function sortTable(col) {
+        let table = document.querySelector("table");
+        let rows = Array.from(table.querySelectorAll("tr"));
+
+        let sortFunction;
+        switch(col) {
+            case 0: // Robot ID
+                sortFunction = (a, b) => a.cells[col].textContent.localeCompare(b.cells[col].textContent, undefined, {numeric: true});
+                break;
+            case 1: // Battery Level
+                sortFunction = (a, b) => {
+                    let aVal = parseInt(a.cells[col].textContent);
+                    let bVal = parseInt(b.cells[col].textContent);
+                    return aVal - bVal;
+                };
+                break;
+            case 2: // X Coordinate
+            case 3: // Y Coordinate
+                sortFunction = (a, b) => {
+                    let aVal = parseInt(a.cells[col].textContent);
+                    let bVal = parseInt(b.cells[col].textContent);
+                    return aVal - bVal;
+                };
+                break;
+        }
+
+        rows.sort(sortFunction);
+        table.tBodies[0].append(...rows);
+    }
+
+    function filterTable() {
+        let input = document.getElementById('robotIdInput');
+        let filterValue = input.value.toUpperCase();
+
+        let filteredRobots = robots.filter(robot => robot.robotId.toUpperCase().includes(filterValue));
+
+        let dataBody = document.getElementById('data');
+        dataBody.innerHTML = '';
+
+        filteredRobots.forEach(robot => {
+            let row = document.createElement('tr');
+            let robotIdCell = document.createElement('td');
+            robotIdCell.textContent = robot.robotId;
+            let batteryLevelCell = document.createElement('td');
+            batteryLevelCell.textContent = robot.batteryLevel + '%';
+            let xCoordCell = document.createElement('td');
+            xCoordCell.textContent = robot.x;
+            let yCoordCell = document.createElement('td');
+            yCoordCell.textContent = robot.y;
+
+            row.appendChild(robotIdCell);
+            row.appendChild(batteryLevelCell);
+            row.appendChild(xCoordCell);
+            row.appendChild(yCoordCell);
+
+            dataBody.appendChild(row);
+        });
+    }
+</script>
+</body>
+</html>
