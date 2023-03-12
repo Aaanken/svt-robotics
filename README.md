@@ -18,9 +18,3 @@ The table can be sorted by clicking on the headers of each column. Clicking once
 
 A search input is also available for filtering the table by robot ID.
 
-## Contributing
-
-Contributions are welcome! Please create a pull request or an issue if you would like to contribute to this project.
-
-## License
-This project is licensed under the MIT License. See the LICENSE file for details.
